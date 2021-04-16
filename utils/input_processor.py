@@ -17,13 +17,37 @@ def validate_inputs(data) -> None:
 
 def district_encoding(district_string) -> list:
     """Encodes the name of the district into a list of values after dummy encoding"""
-    district_list = ['Akmenės r. sav.', 'Alytus', 'Antakalnis', 'Fabijoniškės', 'Jeruzalė',
-       'Jonavos r. sav.', 'Justiniškės', 'Karoliniškės', 'Kaunas',
-       'Kauno r. sav.', 'Klaipėda', 'Klaipėdos r. sav.', 'Kėdainių m.',
-       'Mažeikių m.', 'Naujamiestis', 'Naujininkai', 'Panevėžio r. sav.',
-       'Panevėžys', 'Pašilaičiai', 'Pilaitė', 'Senamiestis', 'Utenos m.',
-       'Vilnius', 'Viršuliškės', 'Šeškinė', 'Šiauliai', 'Šilutės m.',
-       'Žirmūnai', 'Žvėrynas']
+    district_list = [
+        "Akmenės r. sav.",
+        "Alytus",
+        "Antakalnis",
+        "Fabijoniškės",
+        "Jeruzalė",
+        "Jonavos r. sav.",
+        "Justiniškės",
+        "Karoliniškės",
+        "Kaunas",
+        "Kauno r. sav.",
+        "Klaipėda",
+        "Klaipėdos r. sav.",
+        "Kėdainių m.",
+        "Mažeikių m.",
+        "Naujamiestis",
+        "Naujininkai",
+        "Panevėžio r. sav.",
+        "Panevėžys",
+        "Pašilaičiai",
+        "Pilaitė",
+        "Senamiestis",
+        "Utenos m.",
+        "Vilnius",
+        "Viršuliškės",
+        "Šeškinė",
+        "Šiauliai",
+        "Šilutės m.",
+        "Žirmūnai",
+        "Žvėrynas",
+    ]
     return_list = []
     for district in district_list:
         if district == district_string:
