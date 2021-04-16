@@ -1,17 +1,18 @@
 import psycopg2
 from dotenv import load_dotenv
 import os
-load_dotenv('.env')
+
+load_dotenv(".env")
 
 
-class Database():
+class Database:
     def __init__(self):
         self.__connection = psycopg2.connect(
-            database=os.getenv('DATABASE'),
-            user=os.getenv('USER'),
-            password=os.getenv('PASSWORD'),
-            host=os.getenv('HOST'),
-            port=os.getenv('PORT')
+            database=os.getenv("DATABASE"),
+            user=os.getenv("USER"),
+            password=os.getenv("PASSWORD"),
+            host=os.getenv("HOST"),
+            port=os.getenv("PORT"),
         )
 
     def create_database(self) -> None:
@@ -22,14 +23,16 @@ class Database():
         with self.__connection.cursor() as cur:
             cur.execute("DROP TABLE IF EXISTS Predictions;")
 
-            cur.execute('''
+            cur.execute(
+                """
                         CREATE TABLE Predictions (
                             id SERIAL PRIMARY KEY,
                             date TIMESTAMP DEFAULT NOW(),
                             input_values VARCHAR,
                             predicted_values VARCHAR
                             )
-                    ''')
+                    """
+            )
             self.__connection.commit()
 
     def create_record(self, request: str, response: str) -> None:
@@ -38,15 +41,13 @@ class Database():
         :return:
         """
         with self.__connection.cursor() as cur:
-            cur.execute("""
+            cur.execute(
+                """
                         INSERT INTO Predictions(input_values, predicted_values)
                         VALUES (%(user_input)s, %(output)s);
                         """,
-                        {
-                            "user_input": request,
-                            "output": response
-                        }
-                        )
+                {"user_input": request, "output": response},
+            )
             self.__connection.commit()
 
     def get_recent_records(self, number_of_records) -> list:
@@ -55,15 +56,15 @@ class Database():
         :return:
         """
         with self.__connection.cursor() as cur:
-            cur.execute('''
+            cur.execute(
+                """
             SELECT input_values, predicted_values
             FROM Predictions
             ORDER BY date DESC
             LIMIT %(number)s
-            ''',
-                        {
-                            "number": number_of_records
-                        })
+            """,
+                {"number": number_of_records},
+            )
             return cur.fetchall()
 
 
