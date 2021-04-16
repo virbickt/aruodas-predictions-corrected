@@ -4,15 +4,15 @@ import json
 
 def validate_inputs(data) -> None:
     if "number_of_rooms" not in data:
-        raise ValueError("Mandatory field 'Number of rooms' is missing")
+        raise ValueError("Mandatory field 'number_of_rooms' is missing")
     if "area" not in data:
-        raise ValueError("Mandatory field 'Area' is missing")
+        raise ValueError("Mandatory field 'area' is missing")
     if "floor_on" not in data:
-        raise ValueError("Mandatory field 'Floor on' is missing")
+        raise ValueError("Mandatory field 'floor_on' is missing")
     if "floors_total" not in data:
-        raise ValueError("Mandatory field 'Total floors' is missing")
+        raise ValueError("Mandatory field 'floors_total' is missing")
     if "district" not in data:
-        raise ValueError("Mandatory field 'District' is missing")
+        raise ValueError("Mandatory field 'district' is missing")
 
 
 def district_encoding(district_string) -> list:

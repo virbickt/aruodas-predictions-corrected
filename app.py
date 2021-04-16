@@ -11,7 +11,6 @@ app = Flask(__name__)
 
 # Load the model
 regressor = pickle.load(open("regressor.pkl", "rb"))
-scaler = pickle.load(open("scaler.pkl", "rb"))
 
 
 @app.route("/")
@@ -29,28 +28,43 @@ def predict() -> str:
     :return: list of predictions of the price
     """
     user_input = request.data
+
+    # try process the data and catch errors
     try:
         inputs = process_input(user_input)
-        predictions = regressor.predict(inputs)
-        # output = json.dumps({"Predicted price": predictions.tolist()})
-        result = [round(float(prediction), 2) for prediction in predictions]
-        output = json.dumps({"Predicted price": result})
-        # return output, 200
+
+    # catch json decoding-related errors
     except (KeyError, json.JSONDecodeError):
         output = json.dumps(
-            {"Error": "Data could not be processed. Please check the input values."}
+            {"Error": f"Data could not be processed. Please check the syntax"}
         )
         return output, 400
 
-    finally:
+    # catch missing values in input data
+    except ValueError as e:
+        output = json.dumps({"Error": f"Wrong inputs: {e}"})
+        return output, 400
+
+    # try making a prediction
+    try:
+        predictions = regressor.predict(inputs)
+        result = [float(prediction) for prediction in predictions]
+        output = json.dumps({"Predicted price": result})
+
+    except Exception as e:
+        output = json.dumps({"Error": f"Prediction failed: {e}"})
+        return output, 400
+
+    # try inserting the prediction outputted into database
+    try:
         database.create_record(user_input.decode(), output)
         return output, 200
 
-    # try:
-    #    predictions = regressor.predict(inputs)
-    # except:
-    #    output = json.dumps({"Error": "Predictions failed"})
-    #    return output, 500
+    except Exception as e:
+        output = json.dumps(
+            {"Error": f"The output could not be inserted into database: {e}"}
+        )
+        return output, 500
 
 
 @app.route("/last_requests", methods=["GET"], defaults={"number_of_records": 10})
