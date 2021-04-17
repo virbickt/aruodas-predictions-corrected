@@ -1,5 +1,9 @@
 import numpy as np
 import json
+import pickle
+
+labelencoder = pickle.load(open("labelencoder.pkl", "rb"))
+enc = pickle.load(open("encoder.pkl", "rb"))
 
 
 def validate_inputs(data) -> None:
@@ -17,48 +21,6 @@ def validate_inputs(data) -> None:
         data["district"] = data["district"].capitalize()
 
 
-def district_encoding(district_string) -> list:
-    """Encodes the name of the district into a list of values after dummy encoding"""
-    district_list = [
-        "Akmenės r. sav.",
-        "Alytus",
-        "Antakalnis",
-        "Fabijoniškės",
-        "Jeruzalė",
-        "Jonavos r. sav.",
-        "Justiniškės",
-        "Karoliniškės",
-        "Kaunas",
-        "Kauno r. sav.",
-        "Klaipėda",
-        "Klaipėdos r. sav.",
-        "Kėdainių m.",
-        "Mažeikių m.",
-        "Naujamiestis",
-        "Naujininkai",
-        "Panevėžio r. sav.",
-        "Panevėžys",
-        "Pašilaičiai",
-        "Pilaitė",
-        "Senamiestis",
-        "Utenos m.",
-        "Vilnius",
-        "Viršuliškės",
-        "Šeškinė",
-        "Šiauliai",
-        "Šilutės m.",
-        "Žirmūnai",
-        "Žvėrynas",
-    ]
-    return_list = []
-    for district in district_list:
-        if district == district_string:
-            return_list.append(1)
-        else:
-            return_list.append(0)
-    return return_list
-
-
 def process_input(request_data: str) -> np.array:
     """
     Decodes the data in json format that it is supplied with as an argument, extract the values of the key "inputs" within
@@ -71,7 +33,9 @@ def process_input(request_data: str) -> np.array:
 
     for input_datum in input_data:
         validate_inputs(input_datum)
-        enc = district_encoding(input_datum["district"])
+        district_label = labelencoder.transform([input_datum["district"]]).tolist()
+        encoded_district_array = enc.transform([district_label]).toarray()
+        encoded_district_list = encoded_district_array.reshape(-1).tolist()
         requests = [
             input_datum["number_of_rooms"],
             input_datum["area"],
@@ -79,7 +43,7 @@ def process_input(request_data: str) -> np.array:
             input_datum["floors_total"],
         ]
 
-        requests_returned = requests + enc
+        requests_returned = requests + encoded_district_list
         requests_returned = [requests_returned]
 
     return np.asarray(requests_returned)
