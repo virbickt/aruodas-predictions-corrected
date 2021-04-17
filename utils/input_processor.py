@@ -13,6 +13,8 @@ def validate_inputs(data) -> None:
         raise ValueError("Mandatory field 'floors_total' is missing")
     if "district" not in data:
         raise ValueError("Mandatory field 'district' is missing")
+    elif not data["district"][0].isupper():
+        data["district"] = data["district"].capitalize()
 
 
 def district_encoding(district_string) -> list:

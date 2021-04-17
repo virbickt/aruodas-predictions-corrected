@@ -9,8 +9,9 @@ database = Database()
 
 app = Flask(__name__)
 
-# Load the model
+# Load the models
 regressor = pickle.load(open("regressor.pkl", "rb"))
+scaler = pickle.load(open("scaler.pkl", "rb"))
 
 
 @app.route("/")
@@ -18,7 +19,7 @@ def index() -> str:
     try:
         return "Connection established"
     except:
-        return "There was a problem connecting to the database"
+        return "There was a problem loading the app"
 
 
 @app.route("/predict", methods=["POST"])
@@ -45,15 +46,23 @@ def predict() -> str:
         output = json.dumps({"Error": f"Wrong inputs: {e}"})
         return output, 400
 
+    # try scaling the inputs
+    try:
+        inputs_scaled = scaler.transform(inputs)
+
+    except Exception as e:
+        output = json.dumps({"Error": f"Scaling step failed: {e}"})
+        return output, 400
+
     # try making a prediction
     try:
-        predictions = regressor.predict(inputs)
+        predictions = regressor.predict(inputs_scaled)
         result = [float(prediction) for prediction in predictions]
         output = json.dumps({"Predicted price": result})
-
     except Exception as e:
         output = json.dumps({"Error": f"Prediction failed: {e}"})
         return output, 400
+
 
     # try inserting the prediction outputted into database
     try:
