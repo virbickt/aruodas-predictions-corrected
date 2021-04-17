@@ -2,8 +2,9 @@ import numpy as np
 import json
 import pickle
 
-labelencoder = pickle.load(open("labelencoder.pkl", "rb"))
-enc = pickle.load(open("encoder.pkl", "rb"))
+
+labeler = pickle.load(open("utils/labeler.pkl", "rb"))
+enc = pickle.load(open("utils/encoder.pkl", "rb"))
 
 
 def validate_inputs(data) -> None:
@@ -33,7 +34,7 @@ def process_input(request_data: str) -> np.array:
 
     for input_datum in input_data:
         validate_inputs(input_datum)
-        district_label = labelencoder.transform([input_datum["district"]]).tolist()
+        district_label = labeler.transform([input_datum["district"]]).tolist()
         encoded_district_array = enc.transform([district_label]).toarray()
         encoded_district_list = encoded_district_array.reshape(-1).tolist()
         requests = [
