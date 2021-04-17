@@ -10,7 +10,7 @@ database = Database()
 app = Flask(__name__)
 
 # Load the models
-regressor = pickle.load(open("regressor.pkl", "rb"))
+regregssor = pickle.load(open("regressor.pkl", "rb"))
 scaler = pickle.load(open("scaler.pkl", "rb"))
 
 
@@ -62,7 +62,6 @@ def predict() -> str:
     except Exception as e:
         output = json.dumps({"Error": f"Prediction failed: {e}"})
         return output, 400
-
 
     # try inserting the prediction outputted into database
     try:
