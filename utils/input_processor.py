@@ -2,8 +2,10 @@ import numpy as np
 import json
 import pickle
 
-
+# load pretrained LabelEncoder to encode district into numerical labels which can be further encoded by OneHotEncoder
 labeler = pickle.load(open("utils/labeler.pkl", "rb"))
+
+# load pretrained OneHotEncoder to encode numerical labels in a form of dummy encoding
 enc = pickle.load(open("utils/encoder.pkl", "rb"))
 
 
