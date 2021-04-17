@@ -1,1 +1,1 @@
-web: waitress-serve --port=5432 app.wsgi:application
+web: waitress-serve --listen=*:8000 app.wsgi:application
