@@ -1,20 +1,19 @@
 import psycopg2
 from dotenv import load_dotenv
-import os
+#import os
 
-load_dotenv(".env")
+#load_dotenv(".env")
 
 
 class Database:
     """Creates database structure and adds or extracts records."""
-
     def __init__(self):
         self.__connection = psycopg2.connect(
-            database=os.getenv("DATABASE"),
-            user=os.getenv("USER"),
-            password=os.getenv("PASSWORD"),
-            host=os.getenv("HOST"),
-            port=os.getenv("PORT"),
+            database="d743b8mr14g43f",
+            user="liupbrtorbgcss",
+            password="c96c2f51ac38990e3956eeece6952c56a2a82ed750fd189c05c3064da5a71ab6",
+            host="ec2-54-228-174-49.eu-west-1.compute.amazonaws.com",
+            port="5432",
         )
 
     def create_database(self) -> None:
@@ -60,12 +59,12 @@ class Database:
         with self.__connection.cursor() as cur:
             cur.execute(
                 """
-                    SELECT input_values, predicted_values
-                    FROM Predictions
-                    ORDER BY date DESC
-                    LIMIT %(number)s
-                """,
-                {"number": number_of_records},
+            SELECT input_values, predicted_values
+            FROM Predictions
+            ORDER BY date DESC
+            LIMIT %(number)s
+            """,
+                {"number": number_of_records}
             )
             return cur.fetchall()
 
