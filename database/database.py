@@ -6,6 +6,8 @@ load_dotenv(".env")
 
 
 class Database:
+    """Creates database structure and adds or extracts records."""
+
     def __init__(self):
         self.__connection = psycopg2.connect(
             database=os.getenv("DATABASE"),
@@ -30,7 +32,7 @@ class Database:
                             date TIMESTAMP DEFAULT NOW(),
                             input_values VARCHAR,
                             predicted_values VARCHAR
-                            )
+                            );
                     """
             )
             self.__connection.commit()
@@ -58,11 +60,11 @@ class Database:
         with self.__connection.cursor() as cur:
             cur.execute(
                 """
-            SELECT input_values, predicted_values
-            FROM Predictions
-            ORDER BY date DESC
-            LIMIT %(number)s
-            """,
+                    SELECT input_values, predicted_values
+                    FROM Predictions
+                    ORDER BY date DESC
+                    LIMIT %(number)s
+                """,
                 {"number": number_of_records},
             )
             return cur.fetchall()
