@@ -1,19 +1,19 @@
 import psycopg2
 from dotenv import load_dotenv
-#import os
+import os
 
-#load_dotenv(".env")
+load_dotenv(".env")
 
 
 class Database:
     """Creates database structure and adds or extracts records."""
     def __init__(self):
         self.__connection = psycopg2.connect(
-            database="d743b8mr14g43f",
-            user="liupbrtorbgcss",
-            password="c96c2f51ac38990e3956eeece6952c56a2a82ed750fd189c05c3064da5a71ab6",
-            host="ec2-54-228-174-49.eu-west-1.compute.amazonaws.com",
-            port="5432",
+            database=os.getenv("DATABASE"),
+            user=os.getenv("USER"),
+            password=os.getenv("PASSWORD"),
+            host=os.getenv("HOST"),
+            port=os.getenv("PORT"),
         )
 
     def create_database(self) -> None:
