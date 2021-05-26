@@ -1,14 +1,25 @@
 import psycopg2
 from dotenv import load_dotenv
 import os
+import environ
 load_dotenv()
 
 
 class Database:
     """Creates database structure and adds or extracts records."""
     def __init__(self):
+        db_host = environ.get('HOST')
+        db_port = environ.get('PORT')
+        db_database = environ.get('DATABASE')
+        db_user = environ.get('USER')
+        db_password = environ.get('PASSWORD')
+
         self.__connection = psycopg2.connect(
-            os.getenv("DATABASE_URL")
+            dbname=db_database,
+            user=db_user,
+            host=db_host,
+            password=db_password,
+            port=db_port
         )
 
     def create_database(self) -> None:
