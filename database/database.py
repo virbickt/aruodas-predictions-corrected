@@ -8,7 +8,9 @@ load_dotenv('.env')
 class Database:
     """Creates database structure and adds or extracts records."""
     def __init__(self):
-        self.__connection = psycopg2.connect('')
+        self.__connection = psycopg2.connect(
+            DATABASE_URL=os.getenv("DATABASE_URL")
+        )
 
     def create_database(self) -> None:
         """
