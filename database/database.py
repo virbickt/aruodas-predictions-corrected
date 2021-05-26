@@ -9,11 +9,7 @@ class Database:
     """Creates database structure and adds or extracts records."""
     def __init__(self):
         self.__connection = psycopg2.connect(
-            database=os.environ.get('DATABASE'),
-            user=os.environ.get('USER'),
-            password=os.environ.get('PASSWORD'),
-            host=os.environ.get('HOST'),
-            port=os.environ.get('PORT')
+            os.getenv("DATABASE_URL")
         )
 
     def create_database(self) -> None:
