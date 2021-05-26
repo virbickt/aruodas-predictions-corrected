@@ -8,18 +8,13 @@ load_dotenv()
 class Database:
     """Creates database structure and adds or extracts records."""
     def __init__(self):
-        db_host = os.environ['HOST']
-        db_port = os.environ['PORT']
-        db_database = os.environ['DATABASE']
-        db_user = os.environ['USER']
-        db_password = os.environ['PASSWORD']
 
         self.__connection = psycopg2.connect(
-            dbname=db_database,
-            user=db_user,
-            host=db_host,
-            password=db_password,
-            port=db_port
+            dbname="d743b8mr14g43f",
+            user="liupbrtorbgcss",
+            host="ec2-54-228-174-49.eu-west-1.compute.amazonaws.com",
+            password="c96c2f51ac38990e3956eeece6952c56a2a82ed750fd189c05c3064da5a71ab6",
+            port="5432"
         )
 
     def create_database(self) -> None:
