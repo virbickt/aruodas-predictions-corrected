@@ -6,7 +6,7 @@ class Database:
     """Creates database structure and adds or extracts records."""
     def __init__(self):
         self.__connection = psycopg2.connect(
-            database=config('DATABASE'),
+            dbname=config('DATABASE'),
             user=config('USER'),
             password=config('PASSWORD'),
             host=config('HOST'),
