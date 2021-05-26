@@ -1,16 +1,14 @@
 import psycopg2
-from decouple import config
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 
 class Database:
     """Creates database structure and adds or extracts records."""
     def __init__(self):
         self.__connection = psycopg2.connect(
-            dbname=config('DATABASE'),
-            user=config('USER'),
-            password=config('PASSWORD'),
-            host=config('HOST'),
-            port=config('PORT')
+            os.getenv("DATABASE_URL")
         )
 
     def create_database(self) -> None:
