@@ -88,7 +88,7 @@ features_for_prediction = {"inputs":
 Using Postman:
 ### Retrieving last records
 Using Postman:
-![example](images/last_requests.PNG)
+![example](images/last_requests.png)
 
 ## License
 The project is licenced under [MIT License](https://github.com/virbickt/aruodas-rent-price-predictions/blob/main/LICENSE.md)
