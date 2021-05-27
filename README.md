@@ -1,4 +1,4 @@
-# aruodas-rent-price-predictions
+# aruodas-predictions-corrected
 The following has been made as part of the capstone project for module "Data Engineering" on Turing College, a project that encompasses software engineering 
 and reproducable research, SQL, data scraping and deployment of machine learning models. The goal of the project is to set up a complete machine learning pipeline, 
 from creating a Python package for data collection to training a model using the collected data, deploying it on cloud and making the model accessible via basic API.
