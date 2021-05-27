@@ -1,8 +1,9 @@
-import psycopg2
-from dotenv import load_dotenv
 import os
-import environ
-load_dotenv()
+
+from dotenv import load_dotenv, find_dotenv
+import psycopg2
+
+load_dotenv(find_dotenv())
 
 
 class Database:
@@ -10,11 +11,11 @@ class Database:
     def __init__(self):
 
         self.__connection = psycopg2.connect(
-            dbname="d743b8mr14g43f",
-            user="liupbrtorbgcss",
-            host="ec2-54-228-174-49.eu-west-1.compute.amazonaws.com",
-            password="c96c2f51ac38990e3956eeece6952c56a2a82ed750fd189c05c3064da5a71ab6",
-            port="5432"
+            user = os.getenv("DATABASE_USERNAME"),
+            password = os.getenv("DATABASE_PASSWORD"),
+            host = os.getenv("DATABASE_IP"),
+            port = os.getenv("DATABASE_PORT"),
+            database = os.getenv("DATABASE_NAME")
         )
 
     def create_database(self) -> None:
