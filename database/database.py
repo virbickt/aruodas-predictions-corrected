@@ -15,7 +15,7 @@ class Database:
             user=os.getenv("DATABASE_USERNAME"),
             password=os.getenv("DATABASE_PASSWORD"),
             host=os.getenv("DATABASE_HOST"),
-            port=os.getenv("DATABASE_PORT"),
+            port=os.getenv("DATABASE_PORT")
         )
 
     def create_database(self) -> None:
