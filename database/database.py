@@ -11,11 +11,7 @@ class Database:
     def __init__(self):
 
         self.__connection = psycopg2.connect(
-            dbname=os.getenv("DATABASE_NAME"),
-            user=os.getenv("DATABASE_USERNAME"),
-            password=os.getenv("DATABASE_PASSWORD"),
-            host=os.getenv("DATABASE_HOST"),
-            port=os.getenv("DATABASE_PORT")
+            os.getenv("DATABASE_URL")
         )
 
     def create_database(self) -> None:
